@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Interview Coach</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <p class="eyebrow">TECHNICAL INTERVIEW PRACTICE</p>
+        <h1>AI Interview Coach</h1>
+        <p class="subtitle">Practice one question at a time. Get a focused performance report when you finish.</p>
+      </header>
+
+      <section id="setup" class="card">
+        <h2>Set up your interview</h2>
+        <form id="setup-form">
+          <label>Topic <input id="topic" required placeholder="e.g. Binary Trees" /></label>
+          <label>Difficulty
+            <select id="difficulty">
+              <option>Easy</option>
+              <option selected>Medium</option>
+              <option>Hard</option>
+            </select>
+          </label>
+          <button type="submit">Start interview</button>
+        </form>
+      </section>
+
+      <section id="interview" class="card hidden">
+        <div class="session-meta"><span id="session-topic"></span><span id="session-difficulty"></span></div>
+        <div id="transcript" class="transcript"></div>
+        <form id="answer-form" class="answer-form">
+          <textarea id="answer" required rows="4" placeholder="Type your answer..."></textarea>
+          <button type="submit">Submit answer</button>
+        </form>
+        <button id="report-button" class="secondary hidden" type="button">End and view report</button>
+      </section>
+
+      <section id="report" class="card hidden"></section>
+      <p id="status" class="status" role="status"></p>
+    </main>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
