@@ -4,7 +4,7 @@ import express from "express";
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
-const groqModel = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
+const groqModel = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
 
 app.use(cors());
 app.use(express.json({ limit: "100kb" }));
@@ -107,6 +107,7 @@ Return only the first interviewer question as plain text.`
 app.post("/answer", async (request, response, next) => {
   try {
     requireFields(request.body, ["topic", "difficulty"]);
+    const { topic, difficulty } = request.body;
     if (!Array.isArray(request.body.history)) {
       const error = new Error("history must be an array.");
       error.status = 400;
@@ -116,7 +117,7 @@ app.post("/answer", async (request, response, next) => {
       { role: "system", content: interviewRules },
       {
         role: "user",
-        content: `Evaluate the candidate's latest response in this ${difficulty} interview about "${request.body.topic}".
+        content: `Evaluate the candidate's latest response in this ${difficulty} interview about "${topic}".
 Conversation:
 ${historyText(request.body.history)}
 Return JSON only with exactly two fields:
@@ -139,6 +140,7 @@ Set ended to true only when the interview should finish now.`
 app.post("/report", async (request, response, next) => {
   try {
     requireFields(request.body, ["topic", "difficulty"]);
+    const { topic, difficulty } = request.body;
     if (!Array.isArray(request.body.history)) {
       const error = new Error("history must be an array.");
       error.status = 400;
@@ -151,7 +153,7 @@ app.post("/report", async (request, response, next) => {
       },
       {
         role: "user",
-        content: `Evaluate this ${difficulty} interview about "${request.body.topic}".
+        content: `Evaluate this ${difficulty} interview about "${topic}".
 Conversation:
 ${historyText(request.body.history)}
 Return exactly:
